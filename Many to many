@@ -1,0 +1,26 @@
+// Create industries table
+CREATE TABLE industries (
+  code VARCHAR(4) PRIMARY KEY,
+  industry VARCHAR(50) NOT NULL
+);
+
+// Create companies table
+CREATE TABLE companies (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
+);
+
+// Create junction table to connect industries and companies
+CREATE TABLE industry_company (
+  industry_code VARCHAR(4) REFERENCES industries(code),
+  company_id INT REFERENCES companies(id),
+  PRIMARY KEY (industry_code, company_id)
+);
+
+// Insert sample data into industries table
+INSERT INTO industries (code, industry) VALUES ('acct', 'Accounting');
+INSERT INTO industries (code, industry) VALUES ('tech', 'Technology');
+
+// Insert sample data into companies table
+INSERT INTO companies (name) VALUES ('Company A');
+INSERT INTO companies (name) VALUES ('Company B');
