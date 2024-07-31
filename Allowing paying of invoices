@@ -1,0 +1,25 @@
+app.put('/invoices/:id', (req, res) => {
+    const { amt, paid } = req.body;
+    const invoice = invoices.find(inv => inv.id === req.params.id);
+
+    if (!invoice) {
+        return res.status(404).json({ error: 'Invoice not found' });
+    }
+
+    if (paid && !invoice.paid) {
+        invoice.paid_date = new Date().toISOString().split('T')[0];
+    } else if (!paid && invoice.paid) {
+        invoice.paid_date = null;
+    }
+
+    res.json({
+        invoice: {
+            id: invoice.id,
+            comp_code: invoice.comp_code,
+            amt: amt || invoice.amt,
+            paid: paid || invoice.paid,
+            add_date: invoice.add_date,
+            paid_date: invoice.paid_date
+        }
+    });
+});
